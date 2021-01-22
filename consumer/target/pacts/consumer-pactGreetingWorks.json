@@ -1,0 +1,50 @@
+{
+  "provider": {
+    "name": "pactGreetingWorks"
+  },
+  "consumer": {
+    "name": "consumer"
+  },
+  "interactions": [
+    {
+      "description": "A request to greeting/Consumer",
+      "request": {
+        "method": "GET",
+        "path": "/greeting/Consumer"
+      },
+      "response": {
+        "status": 200,
+        "body": "Hello, Consumer!"
+      },
+      "providerStates": [
+        {
+          "name": "Greeting Consumer exists"
+        }
+      ]
+    },
+    {
+      "description": "A request to greeting/Ivan",
+      "request": {
+        "method": "GET",
+        "path": "/greeting/Ivan"
+      },
+      "response": {
+        "status": 200,
+        "body": "Hello, Ivan!"
+      },
+      "providerStates": [
+        {
+          "name": "Greeting Ivan exists"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "3.0.0"
+    },
+    "pact-jvm": {
+      "version": "4.1.0"
+    }
+  }
+}

@@ -1,0 +1,163 @@
+{
+  "provider": {
+    "name": "pactAuthWorks"
+  },
+  "consumer": {
+    "name": "consumer"
+  },
+  "interactions": [
+    {
+      "description": "A request to auth",
+      "request": {
+        "method": "POST",
+        "path": "/auth",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "amount": 12345,
+          "merchantRefNum": "80ce44a9-c258-4a5c-9e3d-2000197bcf4a - dynamic value",
+          "card": {
+            "cardNum": "4916556499001713",
+            "cardExpiry": {
+              "month": 12,
+              "year": 2030
+            }
+          }
+        },
+        "matchingRules": {
+          "body": {
+            "$.merchantRefNum": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=UTF-8"
+        },
+        "body": {
+          "amount": 12345,
+          "authCode": "749908 - dynamic value",
+          "cvvVerification": "NOT_PROCESSED - dynamic value",
+          "merchantRefNum": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "links": [
+            {
+              "rel": "self",
+              "href": "https://api.dev.paysafe.com... - dynamic value"
+            }
+          ],
+          "id": "e2490de5-5bd3-43d5-b7c4-526e33f71304",
+          "currencyCode": "USD",
+          "availableToSettle": 12345,
+          "card": {
+            "cardNum": "4916556499001713",
+            "cardExpiry": {
+              "month": 12,
+              "year": 2030
+            },
+            "lastDigits": "1713",
+            "type": "VI"
+          },
+          "avsResponse": "NOT_PROCESSED - dynamic value",
+          "status": "COMPLETED"
+        },
+        "matchingRules": {
+          "body": {
+            "$.authCode": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.avsResponse": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.cvvVerification": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.id": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.merchantRefNum": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.links[0].href": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            }
+          },
+          "header": {
+            "Content-Type": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "application/json(;\\s?charset=[\\w\\-]+)?"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        },
+        "generators": {
+          "body": {
+            "$.id": {
+              "type": "Uuid"
+            },
+            "$.merchantRefNum": {
+              "type": "Uuid"
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "Auth works"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "3.0.0"
+    },
+    "pact-jvm": {
+      "version": "4.1.0"
+    }
+  }
+}
