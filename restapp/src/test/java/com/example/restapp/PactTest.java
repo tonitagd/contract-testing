@@ -1,6 +1,7 @@
 package com.example.restapp;
 
 import au.com.dius.pact.provider.junit.PactRunner;
+import au.com.dius.pact.provider.junit.RestPactRunner;
 import au.com.dius.pact.provider.junit.loader.PactFolder;
 import au.com.dius.pact.provider.junit.target.HttpTarget;
 import au.com.dius.pact.provider.junit.target.Target;
@@ -11,7 +12,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 
-@RunWith(PactRunner.class) // Say JUnit to run tests with custom Runner
+@RunWith(RestPactRunner.class) // Say JUnit to run tests with custom Runner
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class PactTest {
   @TestTarget
