@@ -16,7 +16,7 @@ import org.springframework.web.context.ConfigurableWebApplicationContext;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class PactTest {
   @TestTarget
-  public final Target target = new HttpTarget( "127.0.0.1", 8083);
+  public final Target target = new HttpTarget("127.0.0.1", 8083);
 
   private static ConfigurableWebApplicationContext application;
 

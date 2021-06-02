@@ -1,8 +1,8 @@
 plugins {
-	id 'org.springframework.boot' version '2.2.2.RELEASE'
-	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
-	id "au.com.dius.pact" version "4.1.0"
-	id 'java'
+  id 'org.springframework.boot' version '2.2.2.RELEASE'
+  id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+  id "au.com.dius.pact" version "4.1.0"
+  id 'java'
 }
 
 group = 'com.example'
@@ -10,33 +10,40 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
 repositories {
-	mavenCentral()
-	jcenter()
+  mavenCentral()
+  jcenter()
 }
 
 ext {
-	set('springCloudVersion', "Hoxton.SR5")
+  set('springCloudVersion', "Hoxton.SR5")
 }
 
 dependencies {
-	compile 'org.springframework.boot:spring-boot-starter-web'
-	compile 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-	compile 'org.springframework.cloud:spring-cloud-starter-openfeign'
-	compile 'org.springframework.cloud:spring-cloud-starter-netflix-ribbon'
-	compile 'io.github.openfeign:feign-okhttp'
-	compile 'io.github.openfeign:feign-jackson'
+  compile 'org.springframework.boot:spring-boot-starter-web'
+  compile 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+  compile 'org.springframework.cloud:spring-cloud-starter-openfeign'
+  compile 'org.springframework.cloud:spring-cloud-starter-netflix-ribbon'
+  compile 'io.github.openfeign:feign-okhttp'
+  compile 'io.github.openfeign:feign-jackson'
 
-	testCompile("au.com.dius.pact.consumer:junit:4.1.0")
-	testCompile 'au.com.dius:pact-jvm-consumer-java8:4.0.10'
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+  testImplementation("au.com.dius:pact-jvm-consumer-junit:4.0.10")
+  testImplementation("au.com.dius:pact-jvm-consumer-java8:4.0.10")
+
+  testImplementation group: 'io.rest-assured', name: 'rest-assured', version: '4.2.0'
+  implementation group: 'io.rest-assured', name: 'json-schema-validator', version: '4.2.0'
+  implementation group: 'io.rest-assured', name: 'xml-path', version: '4.2.0'
+  implementation group: 'io.rest-assured', name: 'json-path', version: '4.2.0'
+
+
+  testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
 dependencyManagement {
-	imports {
-		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-	}
+  imports {
+    mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+  }
 }
 
 test {
-	useJUnitPlatform()
+  useJUnitPlatform()
 }

@@ -1,40 +1,43 @@
 package com.example.consumer.services;
 
+import static org.hamcrest.CoreMatchers.is;
+
 import au.com.dius.pact.consumer.dsl.DslPart;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
+import au.com.dius.pact.consumer.junit.PactHttpsProviderRule;
 import au.com.dius.pact.consumer.junit.PactProviderRule;
 import au.com.dius.pact.consumer.junit.PactVerification;
 import au.com.dius.pact.core.model.RequestResponsePact;
 import au.com.dius.pact.core.model.annotations.Pact;
 import com.example.consumer.config.BaseIntegrationTest;
 import com.example.consumer.resources.AuthsResource;
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import io.pactfoundation.consumer.dsl.LambdaDsl;
+import io.restassured.RestAssured;
 
 public class RestAppClientTest extends BaseIntegrationTest {
 
-  @Autowired
-  private RestAppClient restAppClient;
-
   @Rule
   public PactProviderRule mockGreetingProvider = new PactProviderRule("pactGreetingWorks", "127.0.0.1", 1234, this);
+
+  @Rule
+  public PactHttpsProviderRule mockHttpsGreetingProvider =
+      new PactHttpsProviderRule("pactHttpsGreetingWorks", "127.0.0.1", 1234, this);
 
   @Rule
   public PactProviderRule mockAuthProvider = new PactProviderRule("pactAuthWorks", "127.0.0.1", 1234, this);
 
   @Pact(provider = "pactGreetingWorks", consumer = "consumer")
   public RequestResponsePact pactGreetingWorks(PactDslWithProvider builder) {
-    return builder.given("Greeting Ivan exists")
-        .uponReceiving("A request to greeting/Ivan")
-        .path("/greeting/Ivan")
+    return builder.given("Greeting Consumer exists")
+        .uponReceiving("A request to greeting/Consumer")
+        .path("/greeting/Consumer")
         .method("GET")
         .willRespondWith()
         .status(200)
-        .body("Hello, Ivan!")
+        .body("Hello, Consumer!")
         .toPact();
   }
 
@@ -63,20 +66,28 @@ public class RestAppClientTest extends BaseIntegrationTest {
   @Test
   @PactVerification("pactGreetingWorks")
   public void greetingsTest() {
-    String greeting = restAppClient.getGreeting("Ivan");
-    Assert.assertEquals("Hello, Ivan!", greeting);
-
+    RestAssured.given()
+        .when()
+        .get("/greeting")
+        .then()
+        .statusCode(200)
+        .body(is("Hello, Consumer!"));
   }
 
   @Test
   @PactVerification("pactAuthWorks")
   public void authTest() {
     AuthsResource request = new AuthsResource();
-    AuthsResource response = restAppClient.authorize(request);
-    Assert.assertEquals(request.amount, response.amount);
-    Assert.assertEquals(request.card.cardNum, response.card.cardNum);
-    Assert.assertEquals(request.card.cardExpiry.month, response.card.cardExpiry.month);
-    Assert.assertEquals(request.card.cardExpiry.year, response.card.cardExpiry.year);
+
+    RestAssured.given()
+        .when()
+        .get("/auth")
+        .then()
+        .statusCode(200)
+        .body("amount", is(request.amount))
+        .body("card.cardNum", is(request.card.cardNum))
+        .body("card.cardExpiry.month", is(request.card.cardExpiry.month))
+        .body("card.cardExpiry.year", is(request.card.cardExpiry.year));
   }
 
   private DslPart getResponseBody() {
@@ -120,5 +131,3 @@ public class RestAppClientTest extends BaseIntegrationTest {
         .numberValue("amount", 12345)).build();
   }
 }
-
-
