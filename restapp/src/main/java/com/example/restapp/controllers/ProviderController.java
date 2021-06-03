@@ -14,7 +14,7 @@ public class ProviderController {
 
   @Autowired
   private CardClient cardClient;
-  @Value("${account}")
+  @Value("${card.account}")
   private String account;
 
   @GetMapping("greeting/{name}")

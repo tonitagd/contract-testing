@@ -2,10 +2,11 @@ package com.example.restapp;
 
 import au.com.dius.pact.provider.junit.Provider;
 import au.com.dius.pact.provider.junit.State;
+import au.com.dius.pact.provider.junit.loader.PactBroker;
 import au.com.dius.pact.provider.junit.loader.PactFolder;
 
-@PactFolder("src/test/resources/pacts") // Point where to find pacts (See also section Pacts source in documentation)
 @Provider("pactGreetingWorks") // name of tested provider
+@PactBroker(host = "localhost", port = "9080", scheme = "http")
 public class GreetingPactTest extends PactTest {
 
   @State("Greeting Consumer exists")

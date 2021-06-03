@@ -13,10 +13,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class CardsConfiguration {
 
-  @Value("${user}")
+  @Value("${card.user}")
   private String user;
 
-  @Value("${password}")
+  @Value("${card.password}")
   private String password;
 
   @Bean

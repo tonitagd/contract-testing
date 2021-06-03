@@ -1,3 +1,9 @@
+buildscript {
+  dependencies {
+    classpath 'au.com.dius.pact.provider:gradle:4.1.0'
+  }
+}
+
 plugins {
   id 'org.springframework.boot' version '2.2.2.RELEASE'
   id 'io.spring.dependency-management' version '1.0.8.RELEASE'
@@ -5,18 +11,15 @@ plugins {
   id 'java'
 }
 
-group = 'com.example'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
-
 repositories {
   mavenCentral()
   jcenter()
 }
 
-ext {
-  set('springCloudVersion', "Hoxton.SR5")
-}
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
 
 dependencies {
   compile 'org.springframework.boot:spring-boot-starter-web'
@@ -40,10 +43,20 @@ dependencies {
 
 dependencyManagement {
   imports {
-    mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    mavenBom "org.springframework.cloud:spring-cloud-dependencies:Hoxton.SR5"
   }
 }
 
 test {
   useJUnitPlatform()
+}
+
+apply plugin: 'au.com.dius.pact'
+
+pact {
+  publish {
+    pactBrokerUrl = "http://localhost:9080/"
+    pactDirectory = "${project.rootDir}/pacts"
+    tags = ["ConsumerApp"]
+  }
 }

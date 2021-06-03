@@ -1,5 +1,6 @@
 package com.example.consumer.config;
 
+import au.com.dius.pact.core.model.annotations.PactFolder;
 import com.example.consumer.ConsumerApplication;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -13,6 +14,7 @@ import io.restassured.RestAssured;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
     classes = {ConsumerApplication.class, FeignConfig.class},
     properties = {"eureka.client.enabled:false", "eureka.instance.prefer-ip-address:true"})
+@PactFolder(value = "pacts")
 public abstract class BaseIntegrationTest {
 
   @LocalServerPort

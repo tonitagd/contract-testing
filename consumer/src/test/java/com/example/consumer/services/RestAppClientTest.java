@@ -4,7 +4,6 @@ import static org.hamcrest.CoreMatchers.is;
 
 import au.com.dius.pact.consumer.dsl.DslPart;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
-import au.com.dius.pact.consumer.junit.PactHttpsProviderRule;
 import au.com.dius.pact.consumer.junit.PactProviderRule;
 import au.com.dius.pact.consumer.junit.PactVerification;
 import au.com.dius.pact.core.model.RequestResponsePact;
@@ -21,10 +20,6 @@ public class RestAppClientTest extends BaseIntegrationTest {
 
   @Rule
   public PactProviderRule mockGreetingProvider = new PactProviderRule("pactGreetingWorks", "127.0.0.1", 1234, this);
-
-  @Rule
-  public PactHttpsProviderRule mockHttpsGreetingProvider =
-      new PactHttpsProviderRule("pactHttpsGreetingWorks", "127.0.0.1", 1234, this);
 
   @Rule
   public PactProviderRule mockAuthProvider = new PactProviderRule("pactAuthWorks", "127.0.0.1", 1234, this);
