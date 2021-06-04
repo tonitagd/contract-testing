@@ -12,7 +12,7 @@ import io.restassured.RestAssured;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-    classes = {ConsumerApplication.class, FeignConfig.class},
+    classes = {ConsumerApplication.class},
     properties = {"eureka.client.enabled:false", "eureka.instance.prefer-ip-address:true"})
 @PactFolder(value = "pacts")
 public abstract class BaseIntegrationTest {
